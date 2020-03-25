@@ -209,7 +209,7 @@ class UserRepository with ChangeNotifier {
     info['mobile'] = mobile;
     info['created_at'] = DateTime.now().millisecondsSinceEpoch;
 
-    await _db.collection('users').document(user.uid).setData(info, merge: true);
+    await _db.collection('merchants').document(user.uid).setData(info, merge: true);
   }
 
   // Future<void> mergeAuthAndUserInfo(
