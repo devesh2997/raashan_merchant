@@ -164,7 +164,7 @@ class UserRepository with ChangeNotifier {
     notifyListeners();
 
     _db
-        .collection('users')
+        .collection('merchants')
         .document(_user.uid)
         .snapshots()
         .listen((snapshot) async {
@@ -251,7 +251,7 @@ class UserRepository with ChangeNotifier {
     }
     try {
       await _db
-          .collection('users')
+          .collection('merchants')
           .document(_user.uid)
           .setData(userInfoMap, merge: true);
       notifyListeners();
