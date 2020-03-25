@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raashan_merchant/screens/splash.dart';
 
 const bool ENABLE_DEVICE_SIMULATION = false;
 
@@ -14,18 +15,7 @@ class NavigationService {
   Map<String, Widget Function(BuildContext)> createRoutes() {
     Map<String, Widget Function(BuildContext)> routes;
     routes = {
-      '/': (context) => Scaffold(
-            appBar: AppBar(
-              title: Text(
-                "Raashan Merchant",
-              ),
-            ),
-            body: Center(
-              child: Text(
-                "Raashan",
-              ),
-            ),
-          ),
+      '/': (context) => Splash(),
     };
     return routes;
   }

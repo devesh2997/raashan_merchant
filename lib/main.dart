@@ -1,22 +1,21 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
-import 'package:raashan_merchant/providers/connectivity_provider.dart';
-import 'package:raashan_merchant/screens/offline_page.dart';
+import 'package:raashan_merchant/data/user_repository.dart';
+import 'package:raashan_merchant/providers/update_provider.dart';
 import 'package:raashan_merchant/services/navigation.service.dart';
 
-void main() => runApp(Root());
-
-class Root extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    bool hasConnection =
-        Provider.of<ConnectivityProvider>(context).hasConnection ?? true;
-    return hasConnection ? MyApp() : OfflinePage();
-  }
-}
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UpdateProvider.instance(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserRepository.instance(),
+        ),
+      ],
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   @override
