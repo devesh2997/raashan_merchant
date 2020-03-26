@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 class MerchantInfo {
   final String name;
   final String mobile;
+  final List<String> shopMobiles;
   final String email;
   final String aadharNum;
   final String panNum;
@@ -21,6 +22,7 @@ class MerchantInfo {
   MerchantInfo({
     this.name,
     this.mobile,
+    this.shopMobiles,
     this.email,
     this.aadharNum,
     this.panNum,
@@ -40,6 +42,7 @@ class MerchantInfo {
 
     map['name'] = name;
     map['mobile'] = mobile;
+    map['shopMobiles'] = shopMobiles;
     map['email'] = email;
     map['aadharNum'] = aadharNum;
     map['panNum'] = panNum;
@@ -55,20 +58,21 @@ class MerchantInfo {
     return map;
   }
 
-  factory MerchantInfo.fromFirebaseUser(FirebaseUser user) {
-    String name = user.displayName;
-    String email = user.email;
-    String mobile = user.phoneNumber;
+  // factory MerchantInfo.fromFirebaseUser(FirebaseUser user) {
+  //   String name = user.displayName;
+  //   String email = user.email;
+  //   String mobile = user.phoneNumber;
 
-    return MerchantInfo(
-      name: name,
-      mobile: mobile,
-    );
-  }
+  //   return MerchantInfo(
+  //     name: name,
+  //     mobile: mobile,
+  //   );
+  // }
   factory MerchantInfo.fromFirestore(DocumentSnapshot doc) {
     String name;
     String email;
     String mobile;
+    List<String> shopMobiles;
     String aadharNum;
     String panNum;
     String gstNum;
@@ -84,6 +88,7 @@ class MerchantInfo {
       Map data = doc.data;
       name = data['name'];
       mobile = data['mobile'];
+      shopMobiles = data['shopMobiles'];
       email = data['email'];
       aadharNum = data['aadharNum'];
       panNum = data['panNum'];
@@ -99,6 +104,7 @@ class MerchantInfo {
     } else {
       name = null;
       mobile = null;
+      shopMobiles = null;
       email = null;
       aadharNum = null;
       panNum = null;
@@ -115,6 +121,7 @@ class MerchantInfo {
     return MerchantInfo(
         name: name,
         mobile: mobile,
+        shopMobiles: shopMobiles,
         email: email,
         aadharNum: aadharNum,
         panNum: panNum,
