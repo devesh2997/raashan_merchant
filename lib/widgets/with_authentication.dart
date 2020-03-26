@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:raashan_merchant/data/user_repository.dart';
-import 'package:raashan_merchant/models/user_info.dart';
+import 'package:raashan_merchant/data/merchant_repository.dart';
+import 'package:raashan_merchant/models/merchant_info.dart';
 import 'package:raashan_merchant/screens/login_page.dart';
 import 'package:raashan_merchant/services/navigation.service.dart';
 import 'package:raashan_merchant/utils/utils.dart';
-import 'package:raashan_merchant/widgets/request_user_info_page.dart';
+import 'package:raashan_merchant/widgets/request_merchant_info_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WithAuthentication extends StatelessWidget {
@@ -19,8 +19,8 @@ class WithAuthentication extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserRepository>(builder: (context, UserRepository user, _) {
-      if (user.status == Status.Unauthenticated) {
+    return Consumer<MerchantRepository>(builder: (context, MerchantRepository merchant, _) {
+      if (merchant.status == Status.Unauthenticated) {
         if (redirect)
           return Scaffold(
             backgroundColor: Colors.white,
@@ -74,21 +74,21 @@ class WithAuthentication extends StatelessWidget {
         else
           return LoginPage(redirect: redirect);
       } else
-        switch (user.status) {
+        switch (merchant.status) {
           case Status.Authenticating:
           case Status.Unauthenticated:
             return LoginPage(redirect: redirect);
           case Status.Authenticated:
-            if (user.loadingUserInfo)
+            if (merchant.loadingUserInfo)
               return LoadingScreen();
             else if (!skippableUserInfo) {
-              MerchantInfo userInfo = user.userInfo;
-              if (userInfo.name == null ||
-                  userInfo.name.length == 0 ||
-                  userInfo.mobile == null ||
-                  userInfo.mobile.length == 0) {
+              MerchantInfo merchantInfo = merchant.merchantInfo;
+              if (merchantInfo.name == null ||
+                  merchantInfo.name.length == 0 ||
+                  merchantInfo.mobile == null ||
+                  merchantInfo.mobile.length == 0) {
                 return RequestUserInfoPage(
-                  userInfo: userInfo,
+                  merchantInfo: merchantInfo,
                 );
               } else {
                 return child;
@@ -121,7 +121,7 @@ class LoadingScreen extends StatelessWidget {
               child: RaisedButton(
                 color: getPrimaryColor(),
                 onPressed: () {
-                  Provider.of<UserRepository>(context).signOut();
+                  Provider.of<MerchantRepository>(context).signOut();
                 },
                 child: Text(
                   'Logout',

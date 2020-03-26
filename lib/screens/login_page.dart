@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:raashan_merchant/data/user_repository.dart';
+import 'package:raashan_merchant/data/merchant_repository.dart';
 import 'package:raashan_merchant/services/navigation.service.dart';
 import 'package:raashan_merchant/utils/utils.dart';
 import 'package:raashan_merchant/widgets/country_code_selector.dart';
@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
       });
   }
 
-  Widget _toggle(UserRepository userRepository) {
+  Widget _toggle(MerchantRepository userRepository) {
     Status status = userRepository.status;
     if (status == Status.Authenticating) {
       return Container(
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    UserRepository userRepository = Provider.of<UserRepository>(context);
+    MerchantRepository userRepository = Provider.of<MerchantRepository>(context);
     Status status = userRepository.status;
     if (status == Status.Authenticated) {
       if (widget.redirect) {
@@ -120,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
     super.didUpdateWidget(oldWidget);
   }
 
-  Widget _getForm(UserRepository userRepository) {
+  Widget _getForm(MerchantRepository userRepository) {
     Status status = userRepository.status;
     String message = userRepository.message;
 
@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    UserRepository userRepository = Provider.of<UserRepository>(context);
+    MerchantRepository userRepository = Provider.of<MerchantRepository>(context);
     return Scaffold(
       key: _key,
       floatingActionButton: _toggle(userRepository),

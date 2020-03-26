@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:raashan_merchant/models/user_info.dart';
+import 'package:raashan_merchant/models/merchant_info.dart';
 
 enum Status {
   Uninitialized,
@@ -16,10 +16,10 @@ enum Status {
   LoadingUserInfo
 }
 
-class UserRepository with ChangeNotifier {
+class MerchantRepository with ChangeNotifier {
   FirebaseAuth _auth;
   FirebaseUser _user;
-  MerchantInfo _userInfo;
+  MerchantInfo _merchantInfo;
   bool loadingUserInfo;
   Firestore _db;
   Status _status = Status.Uninitialized;
@@ -27,7 +27,7 @@ class UserRepository with ChangeNotifier {
 
   String _verificationId;
 
-  UserRepository.instance()
+  MerchantRepository.instance()
       : _auth = FirebaseAuth.instance,
         _db = Firestore.instance {
     loadingUserInfo = false;
@@ -36,7 +36,7 @@ class UserRepository with ChangeNotifier {
 
   Status get status => _status;
   FirebaseUser get user => _user;
-  MerchantInfo get userInfo => _userInfo;
+  MerchantInfo get merchantInfo => _merchantInfo;
 
   void reset() {
     _status = Status.Unauthenticated;
@@ -140,7 +140,7 @@ class UserRepository with ChangeNotifier {
 
   Future<void> _onAuthStateChanged(FirebaseUser firebaseUser) async {
     if (firebaseUser == null) {
-      _userInfo = null;
+      _merchantInfo = null;
       _status = Status.Unauthenticated;
     } else {
       _user = firebaseUser;
@@ -169,25 +169,25 @@ class UserRepository with ChangeNotifier {
         .snapshots()
         .listen((snapshot) async {
       if (snapshot.exists) {
-        _userInfo = MerchantInfo.fromFirestore(snapshot);
+        _merchantInfo = MerchantInfo.fromFirestore(snapshot);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('uid', user.uid);
-        // await mergeAuthAndUserInfo(_user, _userInfo);
+        // await mergeAuthAndUserInfo(_user, _merchantInfo);
         loadingUserInfo = false;
         notifyListeners();
       } else {
         Future.delayed(Duration(seconds: 5), () async {
           if (loadingUserInfo) {
-            if (_userInfo == null) {
+            if (_merchantInfo == null) {
               await createUserInfo(user);
             }
           }
         });
-        // MerchantInfo userInfo = MerchantInfo.fromFirebaseUser(user);
+        // MerchantInfo merchantInfo = MerchantInfo.fromFirebaseUser(user);
         // await _db
         //     .collection('users')
         //     .document(user.uid)
-        //     .setData(userInfo.toMapForFirebase(), merge: true);
+        //     .setData(merchantInfo.toMapForFirebase(), merge: true);
       }
     });
   }
@@ -213,19 +213,19 @@ class UserRepository with ChangeNotifier {
   }
 
   // Future<void> mergeAuthAndUserInfo(
-  //     FirebaseUser user, MerchantInfo userInfo) async {
+  //     FirebaseUser user, MerchantInfo merchantInfo) async {
   //   Map<String, dynamic> info = Map<String, dynamic>();
   //   bool flag = false;
-  //   if (userInfo.name == null && user.displayName != null) {
+  //   if (merchantInfo.name == null && user.displayName != null) {
   //     info['name'] = user.displayName;
   //     flag = true;
   //   }
-  //   if (userInfo.email == null && user.email != null) {
+  //   if (merchantInfo.email == null && user.email != null) {
   //     info['email'] = user.email;
   //     info['isEmailVerified'] = user.isEmailVerified;
   //     flag = true;
   //   }
-  //   if (userInfo.mobile == null && user.phoneNumber != null) {
+  //   if (merchantInfo.mobile == null && user.phoneNumber != null) {
   //     info['mobile'] = user.phoneNumber;
   //     info['isMobileVerified'] =
   //         user.phoneNumber != null && user.phoneNumber.length > 0;
@@ -242,18 +242,18 @@ class UserRepository with ChangeNotifier {
   Future<void> updateUserInfo(
       {String name,
       String mobile}) async {
-    Map<String, dynamic> userInfoMap = Map();
+    Map<String, dynamic> merchantInfoMap = Map();
     if (name != null && name.length > 0) {
-      userInfoMap['name'] = name;
+      merchantInfoMap['name'] = name;
     }
     if (mobile != null && mobile.length >= 10) {
-      userInfoMap['mobile'] = mobile;
+      merchantInfoMap['mobile'] = mobile;
     }
     try {
       await _db
           .collection('merchants')
           .document(_user.uid)
-          .setData(userInfoMap, merge: true);
+          .setData(merchantInfoMap, merge: true);
       notifyListeners();
     } catch (e) {
       print(e);

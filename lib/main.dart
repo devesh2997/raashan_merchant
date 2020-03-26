@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
-import 'package:raashan_merchant/data/user_repository.dart';
+import 'package:raashan_merchant/data/merchant_repository.dart';
 import 'package:raashan_merchant/providers/update_provider.dart';
 import 'package:raashan_merchant/services/navigation.service.dart';
 
@@ -11,7 +11,7 @@ void main() => runApp(MultiProvider(
           create: (context) => UpdateProvider.instance(),
         ),
         ChangeNotifierProvider(
-          create: (context) => UserRepository.instance(),
+          create: (context) => MerchantRepository.instance(),
         ),
       ],
       child: MyApp(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:raashan_merchant/data/user_repository.dart';
+import 'package:raashan_merchant/data/merchant_repository.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
         MaterialButton(
           child: Text('Logout'),
           onPressed: () {
-            Provider.of<UserRepository>(context).signOut();
+            Provider.of<MerchantRepository>(context).signOut();
           },
         )
       ],

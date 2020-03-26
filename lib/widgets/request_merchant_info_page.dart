@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:raashan_merchant/data/user_repository.dart';
-import 'package:raashan_merchant/models/user_info.dart';
+import 'package:raashan_merchant/data/merchant_repository.dart';
+import 'package:raashan_merchant/models/merchant_info.dart';
 import 'package:raashan_merchant/utils/utils.dart';
 import 'package:raashan_merchant/widgets/under_line.dart';
 
 import 'country_code_selector.dart';
 
 class RequestUserInfoPage extends StatefulWidget {
-  final MerchantInfo userInfo;
+  final MerchantInfo merchantInfo;
 
-  const RequestUserInfoPage({Key key, this.userInfo}) : super(key: key);
+  const RequestUserInfoPage({Key key, this.merchantInfo}) : super(key: key);
   @override
   _RequestUserInfoPageState createState() => _RequestUserInfoPageState();
 }
@@ -24,17 +24,17 @@ class _RequestUserInfoPageState extends State<RequestUserInfoPage> {
   @override
   void initState() {
     super.initState();
-    MerchantInfo userInfo = widget.userInfo;
+    MerchantInfo merchantInfo = widget.merchantInfo;
     nameController = TextEditingController();
     mobileController = TextEditingController();
-    nameController.text = beautifyName(userInfo.name);
-    if (userInfo.mobile != null && userInfo.mobile.length > 0) {
-      if (userInfo.mobile[0] == '+') {
-        if (userInfo.mobile[1] == '9' && userInfo.mobile[2] == '1') {
-          mobileController.text = userInfo.mobile.substring(3);
+    nameController.text = beautifyName(merchantInfo.name);
+    if (merchantInfo.mobile != null && merchantInfo.mobile.length > 0) {
+      if (merchantInfo.mobile[0] == '+') {
+        if (merchantInfo.mobile[1] == '9' && merchantInfo.mobile[2] == '1') {
+          mobileController.text = merchantInfo.mobile.substring(3);
         }
       } else {
-        mobileController.text = userInfo.mobile;
+        mobileController.text = merchantInfo.mobile;
       }
     }
     submittingInfo = false;
@@ -213,7 +213,7 @@ class _RequestUserInfoPageState extends State<RequestUserInfoPage> {
                                     submittingInfo = true;
                                   });
                                   if (_formKey.currentState.validate()) {
-                                    await Provider.of<UserRepository>(context)
+                                    await Provider.of<MerchantRepository>(context)
                                         .updateUserInfo(
                                       name: nameController.text,
                                       mobile:
@@ -242,7 +242,7 @@ class _RequestUserInfoPageState extends State<RequestUserInfoPage> {
                       ),
                       child: RawMaterialButton(
                         onPressed: () {
-                          Provider.of<UserRepository>(context).signOut();
+                          Provider.of<MerchantRepository>(context).signOut();
                         },
                         child: Text(
                           "Logout",
