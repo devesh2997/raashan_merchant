@@ -21,11 +21,8 @@ class ProductAttributes {
 class Product {
   final String pid;
   final String title;
-  final String slug;
   final int listPrice;
   final int discount;
-  final int taxPercent;
-  final bool isInclusiveTax;
   final Category category;
   final List<dynamic> description;
   final List<ProductAssetCombination> assets;
@@ -34,11 +31,8 @@ class Product {
   Product({
     @foundation.required this.pid,
     @foundation.required this.title,
-    @foundation.required this.slug,
     @foundation.required this.listPrice,
     @foundation.required this.discount,
-    @foundation.required this.taxPercent,
-    @foundation.required this.isInclusiveTax,
     @foundation.required this.category,
     @foundation.required this.description,
     @foundation.required this.assets,
@@ -53,11 +47,8 @@ class Product {
     Map<String, dynamic> productMap = Map<String, dynamic>();
     productMap['pid'] = pid;
     productMap['title'] = title;
-    productMap['slug'] = slug;
     productMap['listPrice'] = listPrice;
     productMap['discount'] = discount;
-    productMap['taxPercent'] = taxPercent;
-    productMap['isInclusiveTax'] = isInclusiveTax;
     productMap['category'] = category.toMapForOrder();
     productMap['asset'] = asset;
     productMap['attributes'] = attributes.toMapForOrder();
@@ -150,11 +141,8 @@ class Product {
     return Product(
       pid: data['pid'] ?? '',
       title: data['title'] ?? '',
-      slug: data['slug'] ?? '',
       listPrice: listPrice,
       discount: discount,
-      taxPercent: (data['taxPercent'] ?? 0),
-      isInclusiveTax: (data['isInclusiveTax'] ?? true),
       category: category,
       description: data['description'] ?? List(),
       assets: assets,
