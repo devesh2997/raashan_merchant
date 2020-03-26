@@ -19,7 +19,7 @@ enum Status {
 class UserRepository with ChangeNotifier {
   FirebaseAuth _auth;
   FirebaseUser _user;
-  UKUserInfo _userInfo;
+  MerchantInfo _userInfo;
   bool loadingUserInfo;
   Firestore _db;
   Status _status = Status.Uninitialized;
@@ -36,7 +36,7 @@ class UserRepository with ChangeNotifier {
 
   Status get status => _status;
   FirebaseUser get user => _user;
-  UKUserInfo get userInfo => _userInfo;
+  MerchantInfo get userInfo => _userInfo;
 
   void reset() {
     _status = Status.Unauthenticated;
@@ -169,7 +169,7 @@ class UserRepository with ChangeNotifier {
         .snapshots()
         .listen((snapshot) async {
       if (snapshot.exists) {
-        _userInfo = UKUserInfo.fromFirestore(snapshot);
+        _userInfo = MerchantInfo.fromFirestore(snapshot);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('uid', user.uid);
         // await mergeAuthAndUserInfo(_user, _userInfo);
@@ -183,7 +183,7 @@ class UserRepository with ChangeNotifier {
             }
           }
         });
-        // UKUserInfo userInfo = UKUserInfo.fromFirebaseUser(user);
+        // MerchantInfo userInfo = MerchantInfo.fromFirebaseUser(user);
         // await _db
         //     .collection('users')
         //     .document(user.uid)
@@ -213,7 +213,7 @@ class UserRepository with ChangeNotifier {
   }
 
   // Future<void> mergeAuthAndUserInfo(
-  //     FirebaseUser user, UKUserInfo userInfo) async {
+  //     FirebaseUser user, MerchantInfo userInfo) async {
   //   Map<String, dynamic> info = Map<String, dynamic>();
   //   bool flag = false;
   //   if (userInfo.name == null && user.displayName != null) {
@@ -232,7 +232,7 @@ class UserRepository with ChangeNotifier {
   //     flag = true;
   //   }
   //   if (flag) {
-  //     await _db
+  //     await _db\
   //         .collection('users')
   //         .document(user.uid)
   //         .setData(info, merge: true);

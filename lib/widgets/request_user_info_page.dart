@@ -8,7 +8,7 @@ import 'package:raashan_merchant/widgets/under_line.dart';
 import 'country_code_selector.dart';
 
 class RequestUserInfoPage extends StatefulWidget {
-  final UKUserInfo userInfo;
+  final MerchantInfo userInfo;
 
   const RequestUserInfoPage({Key key, this.userInfo}) : super(key: key);
   @override
@@ -24,7 +24,7 @@ class _RequestUserInfoPageState extends State<RequestUserInfoPage> {
   @override
   void initState() {
     super.initState();
-    UKUserInfo userInfo = widget.userInfo;
+    MerchantInfo userInfo = widget.userInfo;
     nameController = TextEditingController();
     mobileController = TextEditingController();
     nameController.text = beautifyName(userInfo.name);

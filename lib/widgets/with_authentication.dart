@@ -82,7 +82,7 @@ class WithAuthentication extends StatelessWidget {
             if (user.loadingUserInfo)
               return LoadingScreen();
             else if (!skippableUserInfo) {
-              UKUserInfo userInfo = user.userInfo;
+              MerchantInfo userInfo = user.userInfo;
               if (userInfo.name == null ||
                   userInfo.name.length == 0 ||
                   userInfo.mobile == null ||

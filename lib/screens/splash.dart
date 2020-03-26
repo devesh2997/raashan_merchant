@@ -28,7 +28,6 @@ class Splash extends StatelessWidget {
             case UpdateStatus.Latest:
             case UpdateStatus.Safe:
             case UpdateStatus.Optional:
-              print('here');
               return WithAuthentication(child: Landing());
               break;
             default:
